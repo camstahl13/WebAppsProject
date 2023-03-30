@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Register</title>
+		<link rel="stylesheet" href="login.css">
+		<script src="./js/register.js" defer></script>
+		<script src="./js/login_fields.js" defer></script>
+		<script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>
+	</head>
+	<body class="moon-font">
+<header>
+		<h1>Register APE Account</h1>
+	</header>
+	<form id="reg" method="post" action="register.php">
+		<ul class="login-cred">
+			<li>
+				<label for="uname">
+					<input type="text" name="uname" required>
+					<span>Username</span>
+				</label>
+			</li>
+			<li>
+				<label for="pass">
+					<input type="password" name="pass" required>
+					<span>Password</span>
+				</label>
+				<img id="show" src="./img/showpass.png">
+				<img id="hide" hidden=true src="./img/hidepass.png">
+			</li>
+			<li>
+				<label for="vpass">
+					<input type="password" name="vpass" required>
+					<span>Verify password</span>
+				</label>
+				<img id="vshow" src="./img/showpass.png"></img>
+				<img id="vhide" hidden=true src="./img/hidepass.png"></img>
+			</li>
+			<li>
+				<label for="fname">
+					<input type="text" name="fname" required>
+					<span>First Name</span>
+				</label>
+			</li>
+			<li>
+				<label for="lname">
+					<input type="text" name="lname" required>
+					<span>Last Name</span>
+				</label>
+			</li>
+			<li><select name="major" id="major"></select></li>
+			<li><select name="minor" id="minor"></select></li>
+			<li><select name="catayear" id="catayear"></select></li>
+		</ul>
+		<button class="btn" type="submit" id="sub" value="SUBMIT">Register</button>
+	</form>
+	</body>
+</html>
