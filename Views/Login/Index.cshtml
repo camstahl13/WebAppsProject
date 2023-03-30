@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ljcProject5</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/login.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/ljcProject5.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <h1>Access APE</h1>
+    </header>
+    <div id="main">
+        <form id="loginsubmit" method="post" action="./login.php">
+            <ul class="login-cred">
+                <li>
+                    <label for="uname">
+                        <input type="text" name="uname">
+                        <span>Username</span>
+                    </label>
+                </li>
+                <li>
+                    <label for="pass">
+                        <input type="password" name="pass">
+                        <span>Password</span>
+                    </label>
+                    <img id="show" src="http://judah.cedarville.edu/~lcarpen/TermProject/P4/img/showpass.png"
+                        style="opacity: 1;">
+                    <img id="hide" src="http://judah.cedarville.edu/~lcarpen/TermProject/P4/img/hidepass.png"
+                        style="opacity: 1;" hidden="hidden">
+                </li>
+            </ul>
+            <section>
+                <button class="btn login-btn" type="submit" id="sub">Sign In</button>
+                <a class="btn register-btn" href="register.php">Register</a>
+            </section>
+        </form>
+    </div>
+</body>
+</html>
