@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using ljcProject5.Data;
 using ljcProject5.Areas.Identity.Data;
+using NuGet.Protocol.Core.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("ljcProject5ContextConnection") ?? throw new InvalidOperationException("Connection string 'ljcProject5ContextConnection' not found.");
@@ -44,6 +45,8 @@ builder.Services.ConfigureApplicationCookie(options =>
     options.AccessDeniedPath = "/Identity/Account/AccessDenied";
     options.SlidingExpiration = true;
 });
+
+builder.Services.AddScoped<ljcProject5.Models.Project5Context>();
 
 var app = builder.Build();
 
