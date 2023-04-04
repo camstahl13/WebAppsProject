@@ -8,20 +8,24 @@ var connectionString = builder.Configuration.GetConnectionString("ljcProject5Con
 
 builder.Services.AddDbContext<ljcProject5Context>(options => options.UseMySql(connectionString, new MySqlServerVersion(new Version(10,4,27))));
 
-builder.Services.AddDefaultIdentity<ljcProject5User>(options => options.SignIn.RequireConfirmedAccount = true).AddEntityFrameworkStores<ljcProject5Context>();
+builder.Services.AddDefaultIdentity<ljcProject5User>(options => options.SignIn.RequireConfirmedAccount = true)
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ljcProject5Context>();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
+
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
-    options.Password.RequireDigit = true;
-    options.Password.RequireLowercase = true;
-    options.Password.RequireNonAlphanumeric = true;
-    options.Password.RequireUppercase = true;
-    options.Password.RequiredLength = 6;
-    options.Password.RequiredUniqueChars = 1;
+    options.Password.RequireDigit = false;
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Password.RequireUppercase = false;
+    options.Password.RequiredLength = 3;
+    options.Password.RequiredUniqueChars = 0;
 
     // Lockout settings.
     options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
@@ -67,5 +71,23 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
+using(var scope = app.Services.CreateScope())
+{
+    var roleMangaer = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
+    var roles = new[] { "admin" , "student", "teacher" };
+
+    foreach (var role in roles)
+    {
+        if(!await roleMangaer.RoleExistsAsync(role))
+        {
+            await roleMangaer.CreateAsync(new IdentityRole(role));
+        }
+    }
+}
+
+
+
+
 
 app.Run();
