@@ -52,6 +52,14 @@ builder.Services.ConfigureApplicationCookie(options =>
 
 builder.Services.AddScoped<ljcProject5.Models.Project5Context>();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -69,6 +77,8 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
@@ -78,7 +88,7 @@ app.MapRazorPages();
 using(var scope = app.Services.CreateScope())
 {
     var roleMangaer = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-    var roles = new[] { "admin" , "student", "teacher" };
+    var roles = new[] { "admin" , "student", "faculty" };
 
     foreach (var role in roles)
     {

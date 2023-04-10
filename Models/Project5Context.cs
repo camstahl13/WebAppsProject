@@ -29,6 +29,8 @@ public partial class Project5Context : DbContext
 
     public virtual DbSet<Efmigrationshistory> Efmigrationshistories { get; set; }
 
+    public virtual DbSet<LjcAdvise> LjcAdvises { get; set; }
+
     public virtual DbSet<LjcCatalog> LjcCatalogs { get; set; }
 
     public virtual DbSet<LjcCatayear> LjcCatayears { get; set; }
@@ -55,7 +57,7 @@ public partial class Project5Context : DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. You can avoid scaffolding the connection string by using the Name= syntax to read it from configuration - see https://go.microsoft.com/fwlink/?linkid=2131148. For more guidance on storing connection strings, see http://go.microsoft.com/fwlink/?LinkId=723263.
-        => optionsBuilder.UseMySql("server=163.11.236.98;database=project5;username=webapps;password=Kp!gLkfCTNRjh8KG", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.4.27-mariadb"));
+        => optionsBuilder.UseMySql("server=localhost;database=project5;username=root", Microsoft.EntityFrameworkCore.ServerVersion.Parse("10.4.27-mariadb"));
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -183,6 +185,20 @@ public partial class Project5Context : DbContext
 
             entity.Property(e => e.MigrationId).HasMaxLength(150);
             entity.Property(e => e.ProductVersion).HasMaxLength(32);
+        });
+
+        modelBuilder.Entity<LjcAdvise>(entity =>
+        {
+            entity.HasKey(e => e.Advisee).HasName("PRIMARY");
+
+            entity.ToTable("ljc_advises");
+
+            entity.Property(e => e.Advisee)
+                .HasMaxLength(30)
+                .HasColumnName("advisee");
+            entity.Property(e => e.Advisor)
+                .HasMaxLength(30)
+                .HasColumnName("advisor");
         });
 
         modelBuilder.Entity<LjcCatalog>(entity =>

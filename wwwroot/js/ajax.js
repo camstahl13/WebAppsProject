@@ -89,8 +89,14 @@ function populatePlan(plan, catalog) {
 
 function parseCombined() {
     const crss = JSON.parse(this.response);
+
+    if ("nodefault" in crss) {
+        return;
+    }
+
     let plan = crss.plan;
     let catalog = crss.catalog;
+    console.log(crss);
 
     $("#studentName").text(plan.student);
     $("#catalogYear").text(plan.catYear);
@@ -105,16 +111,18 @@ function parseCombined() {
 function getCombined() {
     cataXhr = new XMLHttpRequest();
     cataXhr.onload = parseCombined;
-    cataXhr.open("GET", "http://judah.cedarville.edu/~lcarpen/TermProject/P4/getCombined.php");
+    cataXhr.open("GET", "/Internal/Requirements/GetCombined");
     cataXhr.send();
 }
 
 function getRequirements(plan, catalog) {
-    let rrs;
     reqXhr = new XMLHttpRequest();
     reqXhr.onload = function() {
         let $acc = $("#accordion");
         const rrs = JSON.parse(reqXhr.response);
+        if ("nodefault" in rrs) {
+            return;
+        }
         for (let categoryName in rrs.categories) {
             let courseList = "<ul>";
             rrs.categories[categoryName].courses.forEach(function(course) {
@@ -129,9 +137,8 @@ function getRequirements(plan, catalog) {
             heightStyle: "fill",
         });
     }
-    reqXhr.open("GET", "http://judah.cedarville.edu/~lcarpen/TermProject/P4/getRequirements.php");
+    reqXhr.open("GET", "/Internal/Requirements/Get");
     reqXhr.send();
-    return rrs;
 }
 function dragStart(e) {
 	//console.log(e.target);
@@ -170,6 +177,6 @@ function getCreatePlanMajors() {
 			$("#catayear").append(`<option value="${year}">${year}</option>`);
 		}
 	}
-	xhr.open("GET","http://judah.cedarville.edu/~lcarpen/TermProject/P4/createplan.php");
+	xhr.open("GET","/Internal/Requirements/GetPlannable");
 	xhr.send();
 }

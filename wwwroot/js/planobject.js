@@ -63,7 +63,7 @@ window.onload = function () {
 				let plan = plans[plan_id];
 				planTable += `<tr class="planitem"><td>${plan.planname}</td>`;
 				planTable += `<td>${plan.majors.join(", ")}</td><td>${plan.minors.join(", ")}</td>`;
-				planTable += `<td>${plan.catalog_year}</td><td>${plan.default}</td></tr>`;
+				planTable += `<td>${plan.catalog_year}</td><td>${plan.is_default}</td></tr>`;
 			}
 			planTable += `</table>`;
 
@@ -75,13 +75,13 @@ window.onload = function () {
 					xhr.onload = function() {
 						location.reload();
 					}
-					let url = "http://judah.cedarville.edu/~lcarpen/TermProject/P4/changeplan.php?planname="+idclicked;
+					let url = "Internal/Requirements/ChangePlan?planname="+idclicked;
 					xhr.open("GET",url);
 					xhr.send();
 				});
 			}
 		}
-		plansXhr.open("GET", "http://judah.cedarville.edu/~lcarpen/TermProject/P4/getPlans.php");
+		plansXhr.open("GET", "/Internal/Requirements/GetPlans");
 		plansXhr.send();
 	});
 	document.getElementById("cancelCreatePlan").addEventListener("click",function(e) {
