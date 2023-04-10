@@ -1,6 +1,6 @@
 @font-face {
     font-family: moon;
-    src: url(./css/78446ac31dfd9bec4c55.otf) format("woff2");
+    src: url(./78446ac31dfd9bec4c55.otf) format("woff2");
 }
 
 body {
@@ -8,6 +8,7 @@ body {
     place-content: center;
     background-color: #1c2128;
     color: white;
+    min-height: 100vh;
 }
 
 .moon-font {
@@ -16,6 +17,7 @@ body {
 }
 
 header {
+    font-weight: bold;
     text-align: center;
     font-size: xx-large;
 }
@@ -31,7 +33,7 @@ form {
 
 
 #main {
-    margin-top: 25%;
+    margin-top: 15%;
 }
 
 .login-cred > li > img {
@@ -59,6 +61,16 @@ form {
     border-radius: 0.5em;
     align-items: center;
 }
+#options {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 1rem;
+}
+#options > a {
+    text-decoration: none;
+    color: #757575;
+    font-weight: bold;
+}
 
 .login-cred {
     max-width: 500px;
@@ -66,11 +78,12 @@ form {
     align-self: center;
     box-shadow: 3px 5px 15px rgba(0, 0, 0, 3%);
     list-style: none;
-    color: #2c3542;
+    color: #536278;
     border: solid 0.1em currentColor;
     border-radius: 1em;
     overflow: hidden;
     padding: 0;
+    margin-bottom: 1rem
 }
 
     .login-cred > li {
@@ -82,10 +95,14 @@ form {
     }
 
     .login-cred label {
+        position: relative;
+        display: block;
         font: inherit;
+        border-bottom: inherit;
+        min-height: 3.5rem;
     }
 
-        .login-cred label > span {
+        .login-cred input + span {
             color: #757575;
             position: absolute;
             margin-left: 1em;
@@ -108,26 +125,27 @@ form {
     }
 
 
-    .login-cred > li:last-child {
+    .login-cred > label:last-child {
         border: none
     }
 
-    .login-cred > li input,
-    .login-cred > li input:focus-visible {
+    .login-cred > label input,
+    .login-cred > label input:focus-visible {
         font-size: inherit;
         font-family: inherit;
         letter-spacing: inherit;
         outline: none;
         border: none;
         color: white;
-        height: 100%;
+        height: 1.4rem;
         width: -webkit-fill-available;
         padding: 0;
         background: none;
-        margin: 1em
+        margin: 1em;
+        margin-bottom: 0;
     }
 
-    .login-cred > li select {
+    .login-cred > label select {
         width: -webkit-fill-available;
         height: 3em;
         background: #1c2128;
@@ -137,6 +155,24 @@ form {
         letter-spacing: inherit;
         font: inherit;
         margin-left: 1em;
+    }
+
+.text-danger > ul {
+    padding: 0;
+    margin: 1rem;
+    list-style: none;
+    font-weight: bold;
+    text-align: center;
+}
+
+.text-danger.field-validation-error {
+    padding: 0;
+    margin: 0;
+    font-size: 0.9rem;
+    display:block;
+}
+    .text-danger.field-validation-error span {
+        padding: 1rem;
     }
 
 input[type=password]::-ms-reveal,

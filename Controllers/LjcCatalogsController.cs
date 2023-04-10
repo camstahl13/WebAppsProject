@@ -15,6 +15,7 @@ namespace ljcProject5.Controllers
 
         public LjcCatalogsController(Project5Context context)
         {
+            string[] g = new string[0];
             _context = context;
         }
 

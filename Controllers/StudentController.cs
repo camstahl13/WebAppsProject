@@ -1,4 +1,5 @@
 ﻿using ljcProject5.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 
@@ -58,7 +59,8 @@ namespace ljcProject5.Controllers
             }
             return View("~/Views/Student/Index.cshtml");
         }
-        
+
+        [Authorize(Roles = "student")]
         public IActionResult Index()
         {
             return View();
