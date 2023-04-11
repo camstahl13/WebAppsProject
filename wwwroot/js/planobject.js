@@ -88,8 +88,31 @@ window.onload = function () {
 		document.getElementById("createplanui").classList.remove("modalShown");
 		document.getElementById("createplanui").classList.add("modalHidden");
 	});
-	document.getElementById("cancelManagePlan").addEventListener("click",function(e) {
+	document.getElementById("cancelManagePlan").addEventListener("click", function (e) {
 		document.getElementById("manageplanui").classList.remove("modalShown");
 		document.getElementById("manageplanui").classList.add("modalHidden");
 	});
+	console.log(document.getElementById("accordion").children);
+	console.log(document.getElementById("accordion").childNodes);
+
+	for (let i = 0; i < document.getElementById("accordion").childNodes; ++i) {
+		console.log(item);
+		for (req of document.getElementById("accordion").children[i].children[1].children) {
+			console.log(req);
+			req.addEventListener("dragstart", (e) => {
+				e.dataTransfer.setData("text/plain", e.target.innerText);
+			});
+		}
+	}
+
+	for (let item of document.getElementById("aca-plan").children) {
+		console.log(item);
+		item.addEventListener("drop", (e) => {
+			console.log(item);
+			let ll = document.createElement("li");
+			ll.appendChild(document.createTextNode(e.dataTransfer.getData("text/plain")));
+			item.children[2].children[0].appendChild(ll);
+		});
+	}
+	console.log(document.getElementById("aca-plan"));
 }

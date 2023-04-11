@@ -13,6 +13,7 @@ namespace ljcProject5.Controllers
         {
             _context = context;
         }
+        [Authorize]
         public async Task<IActionResult> Ape(string student, int? plan)
         {
             if (student.IsNullOrEmpty() || User.Identity == null)
@@ -36,9 +37,6 @@ namespace ljcProject5.Controllers
                 {
                     return Unauthorized();
                 }
-            } else if (!User.IsInRole("admin"))
-            {
-                return Unauthorized();
             }
             HttpContext.Session.SetString("student", student);
             
@@ -63,7 +61,7 @@ namespace ljcProject5.Controllers
         [Authorize(Roles = "student")]
         public IActionResult Index()
         {
-            return View();
+            return Redirect("/");
         }
     }
 }

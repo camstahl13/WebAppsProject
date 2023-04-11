@@ -302,12 +302,13 @@ namespace ljcProject5.Controllers
                     int yr = year + termTracker / 2;
                     string sem = termTracker % 2 == 0 ? "FA" : "SP";
                     var newPlannedCourse = new LjcPlannedCourse();
-                    newPlannedCourse.Year = yr;
+                    newPlannedCourse.Year = sem != "FA" ? yr + 1 : yr;
                     newPlannedCourse.Term = sem;
                     newPlannedCourse.PlanId = plan_id;
                     newPlannedCourse.CourseId = course;
                     _context.Add(newPlannedCourse);
-                    termTracker = (termTracker + 1) ^ 8;
+                    termTracker++;
+                    termTracker = (termTracker) % 8;
                 }
             }
 
@@ -325,12 +326,13 @@ namespace ljcProject5.Controllers
                     int yr = year + termTracker / 2;
                     string sem = termTracker % 2 == 0 ? "FA" : "SP";
                     var newPlannedCourse = new LjcPlannedCourse();
-                    newPlannedCourse.Year = yr;
+                    newPlannedCourse.Year = sem != "FA" ? yr + 1: yr ;
                     newPlannedCourse.Term = sem;
                     newPlannedCourse.PlanId = plan_id;
                     newPlannedCourse.CourseId = course;
                     _context.Add(newPlannedCourse);
-                    termTracker = (termTracker + 1) ^ 8;
+                    termTracker++;
+                    termTracker = (termTracker) % 8;
                 }
             }
             _context.SaveChanges();

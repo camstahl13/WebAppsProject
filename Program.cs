@@ -16,8 +16,6 @@ builder.Services.AddDefaultIdentity<ljcProject5User>(options => options.SignIn.R
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -81,9 +79,10 @@ app.UseSession();
 
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=student}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
 app.MapRazorPages();
+
 
 using(var scope = app.Services.CreateScope())
 {
