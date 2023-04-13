@@ -1,10 +1,12 @@
 //import {plan} from './ajax.js';
 
-// Map course_id to bool (fulfilled or not fulfilled)
+// Map course_id to int of number of times it is in the plan
 var req_fulfilled = {};
 
 // Map course_id to li element(s) in requirements accordion
 var req_elements = {};
+let over_unscheduled = false;
+let from_accordion = false;
 
 function populateCatalog(courses) {
     let $table = $("#coursefinder > tbody");
@@ -69,54 +71,87 @@ function displayPlan(years, currYear, currTerm) {
                 li.attr("draggable", true);
                 li.append(course.id + " " + course.title);
                 if (!scheduled) {
+                    li.on("mouseover", () => {
+                        li[0].lastChild.style.display = "inline";
+                    })
+                    li.on("mouseleave", () => {
+                        li[0].lastChild.style.display = "none";
+                    })
                     li.on("dragstart", (e) => {
                         e.originalEvent.dataTransfer.setData("text/plain", e.target.innerText);
+                        from_accordion = false;
                     });
                     li.on("dragend", (e) => {
-                        if (e.target.firstChild.parentElement.parentElement.parentElement.parentElement.className != "unscheduled") {
+                        if (over_unscheduled) {
                             e.originalEvent.target.remove();
                         }
                     });
                 }
+                let x = $("<div>");
+                x.css("display", "none");
+                x.css("float", "right");
+                x.css("margin", 0);
+                x.append("X");
+                x.on("click", () => {
+                    req_fulfilled[x.parent()[0].firstChild.data.replace(/ .*/, '')] -= 1;
+                    recolorCheck(x.parent()[0].firstChild.data.replace(/ .*/,''));
+                    x.parent().remove();
+                });
+                li.append(x);
+
                 u.append(li);
             }
 
             $planArea.append(termHtml);
 
-            /*
-            let termHtml = `<li class=${scheduled ? "scheduled" : "unscheduled"}>
-                                 <p class='sem'>${termName} ${year}</p>
-                                 <p class="hours text-secondary">Hours: ${term.credits}</p>
-                                 <div class="sem-courses">
-                                 <ul class="course-list">`;
-            for (let course of term.courses) {
-                termHtml += `<li draggable="true">${course.id} ${course.title}</li>`;
-            }
-            termHtml += "</ul></div></li>";
-            let termElement = $(termHtml);
-            $planArea.append(termElement);
-            */
-
             if (!scheduled) {
                 termHtml.on("drop", (e) => {
-                    let ll = $("<li>");
-                    ll.attr("draggable", true);
-                    ll.append(e.originalEvent.dataTransfer.getData("text/plain"));
-                    ll.on("dragstart", (e) => {
-                        e.originalEvent.dataTransfer.setData("text/plain", e.target.innerText);
-                    })
-                    ll.on("dragend", (e) => {
-                        if (e.target.firstChild.parentElement.parentElement.parentElement.parentElement.className != "unscheduled") {
-                            e.originalEvent.target.remove();
-                        }
-                    })
-                    termHtml.children(2).children(0).append(ll);
+                    if (over_unscheduled) {
+                        let ll = $("<li>");
+                        ll.attr("draggable", true);
+                        ll.append(e.originalEvent.dataTransfer.getData("text/plain"));
+                        if (from_accordion) req_fulfilled[ll[0].firstChild.data.replace(/ .*/, '')] += 1;
+                        recolorCheck(ll[0].firstChild.data.replace(/ .*/, ''));
+
+                        let x = $("<div>");
+                        x.css("display", "none");
+                        x.css("float", "right");
+                        x.css("margin", 0);
+                        x.append("X");
+                        x.on("click", () => {
+                            req_fulfilled[x.parent()[0].firstChild.data.replace(/ .*/, '')] -= 1;
+                            recolorCheck(x.parent()[0].firstChild.data.replace(/ .*/, ''));
+                            x.parent().remove();
+                        });
+                        ll.append(x);
+
+                        
+
+
+                        ll.on("dragstart", (e) => {
+                            e.originalEvent.dataTransfer.setData("text/plain", e.originalEvent.target.firstChild.data);
+                            from_accordion = false;
+                        });
+                        ll.on("dragend", (e) => {
+                            if (over_unscheduled) {
+                                e.originalEvent.target.remove();
+                            }
+                        });
+                        ll.on("mouseover", () => {
+                            ll[0].lastChild.style.display = "inline";
+                        });
+                        ll.on("mouseleave", () => {
+                            ll[0].lastChild.style.display = "none";
+                        });
+                        termHtml.children(2).children(0).append(ll);
+                    }
                 });
-            }
-            if (scheduled) {
-                termHtml.on("drop", (e) => {
-                    e.preventDefault();
-                })
+                termHtml.on("dragenter", () => {
+                    over_unscheduled = true;
+                });
+                termHtml.on("dragleave", () => {
+                    over_unscheduled = false;
+                });
             }
         }
     }
@@ -124,8 +159,8 @@ function displayPlan(years, currYear, currTerm) {
 
 function recolorCheck(course_id) {
     for (let item of req_elements[course_id]) {
-        item.addClass((course_id in req_fulfilled) ? "planned" : "unplanned");
-        item.removeClass((course_id in req_fulfilled) ? "unplanned" : "planned");
+        item.addClass((req_fulfilled[course_id] > 0) ? "planned" : "unplanned");
+        item.removeClass((req_fulfilled[course_id] > 0) ? "unplanned" : "planned");
     }
 }
 
@@ -136,7 +171,7 @@ function populatePlan(plan, catalog) {
 		    continue;
         }
 
-        req_fulfilled[courseID] = true;
+        req_fulfilled[courseID] = 1;
  
         let course = plan.courses[courseID];
         if (!(course.year in years)) {
@@ -172,7 +207,6 @@ function parseCombined() {
 
     let plan = crss.plan;
     let catalog = crss.catalog;
-    console.log(crss);
 
     $("#studentName").text(plan.student);
     $("#catalogYear").text(plan.catYear);
@@ -191,31 +225,9 @@ function getCombined() {
     cataXhr.send();
 }
 
-function makeCoursesDraggable() {
-    document.addEventListener("dragover", function (event) {
-        event.preventDefault();
-    });
-
-    for (let item of document.getElementById("accordion").children) {
-        for (req of item.children[1].children) {
-            req.addEventListener("dragstart", (e) => {
-                e.dataTransfer.setData("text/plain", e.target.innerText);
-            });
-        }
-    }
-
-    for (let item of document.getElementById("aca-plan").children) {
-        item.addEventListener("drop", (e) => {
-            let ll = document.createElement("li");
-            ll.appendChild(document.createTextNode(e.dataTransfer.getData("text/plain")));
-            item.children[2].children[0].appendChild(ll);
-        });
-    }
-}
-
 function createRequirement(course_id, course_name) {
     if (!(course_id in req_fulfilled)) {
-        req_fulfilled[course_id] = false;
+        req_fulfilled[course_id] = 0;
     }
     let course = $("<li>");
     if (!(course_id in req_elements)) {
@@ -226,8 +238,8 @@ function createRequirement(course_id, course_name) {
     course.addClass(req_fulfilled[course_id] ? "planned" : "unplanned");
     course.attr("draggable", true);
     course.on("dragstart", (e) => {
-        console.log(e.target.innerText);
         e.originalEvent.dataTransfer.setData("text/plain", e.target.innerText);
+        from_accordion = true;
     });
     course.append($("<label>"));
     course.append(`${course_id} ${course_name}`);
@@ -261,8 +273,6 @@ function getRequirements(catalog) {
             header: "> div > h2",
             heightStyle: "fill",
         });
-
-        //makeCoursesDraggable();
     }
     reqXhr.open("GET", "/Internal/Requirements/Get");
     reqXhr.send();

@@ -1,0 +1,35 @@
+body {
+    background-color: black;
+}
+
+h1 {
+    display: block;
+    margin: auto;
+    font-size: xxx-large;
+    font-family: monospace;
+    color: white;
+    text-align: center;
+}
+
+button {
+    display: block;
+    margin: 40px auto;
+    padding: 10px;
+    width: 80%;
+    border-radius: 10px;
+    border: 5px solid white;
+    background-color: #4a8eff;
+    font-size: xx-large;
+    font-family: monospace;
+    text-shadow: 0px 0px 10px black;
+    color: white;
+}
+
+button:hover {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.btt-primary {
+    background-color: #d15151;
+}

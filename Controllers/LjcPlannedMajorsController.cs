@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ljcProject5.Models;
+using Microsoft.AspNetCore.Authorization;
+
 
 namespace ljcProject5.Controllers
 {
+    [Authorize(Roles = "admin")]
     public class LjcPlannedMajorsController : Controller
     {
         private readonly Project5Context _context;

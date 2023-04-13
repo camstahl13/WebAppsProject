@@ -1,0 +1,40 @@
+﻿
+@{
+    ViewData["Title"] = "Admin";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <!-- Meta -->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+
+    <!-- Style Sheets -->
+    <link rel="stylesheet" href="/css/facultyadmin.css">
+
+</head>
+<body>
+    <h1>Admin Tools</h1>
+    <form action="/roles" method="get">
+        <button type="submit">Roles</button>
+    </form>
+    <form action="/ljcadvises" method="get">
+        <button type="submit">Advisors</button>
+    </form>
+    <form action="/ljcplans" method="get">
+        <button type="submit">Plans</button>
+    </form>
+    <form action="/ljccourses" method="get">
+        <button type="submit">Courses</button>
+    </form>
+    <form action="/ljcmajors" method="get">
+        <button type="submit">Majors</button>
+    </form>
+    <form action="/ljcminors" method="get">
+        <button type="submit">Minors</button>
+    </form>
+    <partial name="_LoginPartial" />
+</body>
+</html>

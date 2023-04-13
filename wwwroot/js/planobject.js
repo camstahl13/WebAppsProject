@@ -8,7 +8,7 @@ window.onload = function () {
     let barclick;
     getCombined();
 
-	setupKBB();
+	//setupKBB();
 	getCreatePlanMajors();
     //The start of figuring out how to have the bottom row resize when the bar is clicked and dragged
     document.getElementById("bar").addEventListener("mousedown", () => {
@@ -92,27 +92,4 @@ window.onload = function () {
 		document.getElementById("manageplanui").classList.remove("modalShown");
 		document.getElementById("manageplanui").classList.add("modalHidden");
 	});
-	console.log(document.getElementById("accordion").children);
-	console.log(document.getElementById("accordion").childNodes);
-
-	for (let i = 0; i < document.getElementById("accordion").childNodes; ++i) {
-		console.log(item);
-		for (req of document.getElementById("accordion").children[i].children[1].children) {
-			console.log(req);
-			req.addEventListener("dragstart", (e) => {
-				e.dataTransfer.setData("text/plain", e.target.innerText);
-			});
-		}
-	}
-
-	for (let item of document.getElementById("aca-plan").children) {
-		console.log(item);
-		item.addEventListener("drop", (e) => {
-			console.log(item);
-			let ll = document.createElement("li");
-			ll.appendChild(document.createTextNode(e.dataTransfer.getData("text/plain")));
-			item.children[2].children[0].appendChild(ll);
-		});
-	}
-	console.log(document.getElementById("aca-plan"));
 }

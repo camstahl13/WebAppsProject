@@ -15,7 +15,6 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0">
 
     <!-- Style Sheets -->
-    <link rel="shortcut icon" type="image/x-icon" href="../spbills.jpg">
     <link rel="stylesheet" href="/css/style.css">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
 
@@ -25,7 +24,6 @@
     <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/ui/1.13.1/jquery-ui.min.js" integrity="sha256-eTyxS0rkjpLEo16uXTS0uVCS4815lc40K2iVpWDvdSY=" crossorigin="anonymous"></script>
     <script src="/js/ajax.js"></script>
-    <script src="/js/kbb.js"></script>
 
 </head>
 
@@ -114,20 +112,6 @@
             <div class="sec-header">
                 <h1>Validation Status</h1>
             </div>
-            <form id="kbb">
-                <div>
-                    <label for="year">Year:</label>
-                    <select name="year" id="year"></select>
-                </div>
-                <div>
-                    <label for="make">Make:</label>
-                    <select name="make" id="make"></select>
-                </div>
-                <div>
-                    <label for="model">Model:</label>
-                    <select name="model" id="model"></select>
-                </div>
-            </form>
             <div class="badge-link">
                 <a href="../../cs3220.html">Luke's Home</a>
                 <a href="../../../~jcarpen/cs3220.html">Josiah's Home</a>
@@ -144,12 +128,12 @@
                     <input type="checkbox">
                     <h1>Check box to hide Send Advisor form</h1>
                 </div>
-                <form action="http://judah.cedarville.edu/echo.php" target="_blank" id="coursesearch">
+                <form target="_blank" id="coursesearch">
                     <label for="placeholder">Enter Course: </label>
                     <input type="text" name="placeholder">
                 </form>
             </div>
-            <form action="http://judah.cedarville.edu/echo.php" target="_blank" class="advisorform" id="submitbutton">
+            <form target="_blank" class="advisorform" id="submitbutton">
                 <p>
                     <label for="email" id="emaillabel">Email: </label>
                     <input type="text" name="email" id="email" size=30>

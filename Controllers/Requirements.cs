@@ -17,6 +17,7 @@ using ljcProject5.Migrations;
 using System.Drawing;
 using System.Net;
 using System.Security.Cryptography;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ljcProject5.Controllers
 {
@@ -174,6 +175,7 @@ namespace ljcProject5.Controllers
         }
     }
 
+    [Authorize]
     [Route("Internal/[controller]/[action]")]
     public class RequirementsController : Controller
     {
@@ -184,10 +186,11 @@ namespace ljcProject5.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "faculty,admin")]
         [HttpGet]
         public string GetAdvisees()
         {
-            if (User.Identity == null || User.Identity.Name == null || !(User.IsInRole("faculty") || User.IsInRole("admin")))
+            if (User.Identity == null || User.Identity.Name == null)
             {
                 return "";
             }
@@ -306,7 +309,8 @@ namespace ljcProject5.Controllers
                     newPlannedCourse.Term = sem;
                     newPlannedCourse.PlanId = plan_id;
                     newPlannedCourse.CourseId = course;
-                    _context.Add(newPlannedCourse);
+                    try { _context.Add(newPlannedCourse); }
+                    catch { }
                     termTracker++;
                     termTracker = (termTracker) % 8;
                 }
@@ -330,7 +334,12 @@ namespace ljcProject5.Controllers
                     newPlannedCourse.Term = sem;
                     newPlannedCourse.PlanId = plan_id;
                     newPlannedCourse.CourseId = course;
-                    _context.Add(newPlannedCourse);
+                    if((from cs in _context.LjcPlannedCourses
+                       where cs.Year == newPlannedCourse.Year && cs.Term == newPlannedCourse.Term && cs.PlanId == newPlannedCourse.PlanId && cs.CourseId == newPlannedCourse.CourseId
+                       select cs.Year).ToString() == "")
+                    {
+                        _context.Add(newPlannedCourse);
+                    }
                     termTracker++;
                     termTracker = (termTracker) % 8;
                 }
